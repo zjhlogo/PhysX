@@ -3577,16 +3577,16 @@ PX_FORCE_INLINE Vec4V V4SplatElement(Vec4V a)
 		return vdupq_lane_f32(vget_low_f32(a), 1);
 	}
 #else
-	if(index < 2)
+	if constexpr(index < 2)
 	{
 		return vdupq_lane_f32(vget_low_f32(a), index);
 	}
 #endif
-	else if(index == 2)
+	else if constexpr(index == 2)
 	{
 		return vdupq_lane_f32(vget_high_f32(a), 0);
 	}
-	else if(index == 3)
+	else if constexpr(index == 3)
 	{
 		return vdupq_lane_f32(vget_high_f32(a), 1);
 	}
