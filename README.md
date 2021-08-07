@@ -47,8 +47,9 @@ Platform specific information can be found here:
  
 ## Android
 
-- Run generate_projects.sh
-- `cmake . -DCMAKE_TOOLCHAIN_FILE=$NDK/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=19`
+- Set PM_AndroidNDK_PATH environment variable to your NDK path
+- Run generate_projects.sh in physx/
+- Browse to the built Makefile of your choice and `make`
 
 ## Quick Start Instructions
 
