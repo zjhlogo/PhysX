@@ -20,7 +20,7 @@ def cmakeExt():
 
 
 def filterPreset(presetName):
-    winPresetFilter = ['win','uwp','ps4','switch','xboxone','crosscompile','xboxseriesx']
+    winPresetFilter = ['win','uwp','ps4','switch','xboxone','android','crosscompile','xboxseriesx']
     if sys.platform == 'win32':        
         if any(presetName.find(elem) != -1 for elem in winPresetFilter):
             return True
@@ -160,7 +160,7 @@ class CMakePreset:
         elif self.compiler == 'xcode':
             outString = outString + '-G Xcode'
         elif self.targetPlatform == 'android':
-            outString = outString + '-G \"Unix Makefiles\"'
+            outString = outString + '-G \"Ninja\"'
         elif self.targetPlatform == 'linux':
             outString = outString + '-G \"Unix Makefiles\"'
         elif self.targetPlatform == 'linuxAarch64':
@@ -272,16 +272,19 @@ class CMakePreset:
         elif self.targetPlatform == 'android':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=android'
             outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
-                os.environ['PM_AndroidNDK_PATH'] + \
+                os.environ['ANDROID_NDK'] + \
                 '/build/cmake/android.toolchain.cmake'
+            outString = outString + ' -DCMAKE_MAKE_PROGRAM=' + \
+                os.environ['NINJA_ROOT'] + \
+                '/ninja'
             outString = outString + ' -DANDROID_STL=\"c++_static\"'
             outString = outString + ' -DCM_ANDROID_FP=\"softfp\"'
-            if os.environ.get('PM_AndroidNDK_PATH') is None:
-                print('Please provide path to android NDK in variable PM_AndroidNDK_PATH.')
+            if os.environ.get('ANDROID_NDK') is None:
+                print('Please provide path to android NDK in variable ANDROID_NDK.')
                 exit(-1)
             else:
                 outString = outString + ' -DANDROID_NDK=' + \
-                    os.environ['PM_AndroidNDK_PATH']
+                    os.environ['ANDROID_NDK']
                 outString = outString + ' -DCMAKE_C_COMPILER=clang'
                 outString = outString + ' -DCMAKE_CXX_COMPILER=clang++'
             return outString

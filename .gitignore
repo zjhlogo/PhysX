@@ -1,0 +1,3 @@
+﻿physx/compiler/*
+!physx/compiler/public
+physx/bin
